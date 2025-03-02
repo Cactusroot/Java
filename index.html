@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Repository File Viewer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    a {
+      text-decoration: none;
+      color: #0366d6;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    /* Styles for the PDF viewer */
+    #pdf-viewer {
+      display: none;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+    #pdf-viewer iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    #pdf-viewer .close-btn {
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Repository Files</h1>
+  <div id="repo-content">Loading...</div>
+
+  <!-- PDF viewer container -->
+  <div id="pdf-viewer">
+    <span class="close-btn" onclick="hidePdfViewer()">[Close PDF Viewer]</span>
+    <iframe id="pdf-frame"></iframe>
+  </div>
+
+  <script>
+    // Replace these values with your target repository details.
+    const owner = 'Cactusroot';  // GitHub username or organization
+    const repo = 'JavaKursMaterialien'; // Repository name you want to list files for
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/`;
+
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (!Array.isArray(data)) {
+          document.getElementById('repo-content').innerText =
+            'This endpoint returned a single file or an error. Please ensure you are listing a directory.';
+          return;
+        }
+        let html = '<ul>';
+        data.forEach(item => {
+          // For PDF files, use an onclick event to load the PDF inline.
+          if (item.name.toLowerCase().endsWith('.pdf')) {
+            html += `<li>
+                       <a href="#" onclick="displayPdf('${item.download_url}'); return false;">
+                         ${item.name} (view inline)
+                       </a>
+                     </li>`;
+          } else {
+            // For other files, link to the GitHub page.
+            html += `<li>
+                       <a href="${item.html_url}" target="_blank">
+                         ${item.name}
+                       </a>
+                     </li>`;
+          }
+        });
+        html += '</ul>';
+        document.getElementById('repo-content').innerHTML = html;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        document.getElementById('repo-content').innerText = 'Error loading repository contents.';
+      });
+
+    // Function to display the PDF inline using Google Docs Viewer.
+    function displayPdf(url) {
+      // Build the Google Docs viewer URL with the encoded PDF URL.
+      const viewerUrl = "https://docs.google.com/gview?embedded=true&url=" + encodeURIComponent(url);
+      document.getElementById('pdf-frame').src = viewerUrl;
+      document.getElementById('pdf-viewer').style.display = 'block';
+      document.getElementById('pdf-viewer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Function to hide the PDF viewer.
+    function hidePdfViewer() {
+      document.getElementById('pdf-viewer').style.display = 'none';
+      document.getElementById('pdf-frame').src = '';
+    }
+  </script>
+</body>
+</html>
