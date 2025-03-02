@@ -1,12 +1,12 @@
-let html = '<ul>';
-["JavaAufgaben.pdf", "Woche 1.pdf", "Woche 2.pdf", "Woche 3.pdf"].forEach(item => {
-    html += `<li>
-                 <a href="#" onclick="displayPdf('${item}'); return false;">
-                     ${item.replace(/\.[^/.]+$/, "")}
-                 </a>
-             </li>`;
+const files = ["JavaAufgaben.pdf", "Woche 1.pdf", "Woche 2.pdf", "Woche 3.pdf"];
+
+let html = '';
+files.forEach(item => {
+    html += `<a href="#" onclick="displayPdf('${item}'); return false;">
+                 ${item.replace(/\.[^/.]+$/, "")}
+             </a>`;
 });
-html += '</ul>';
+
 document.getElementById('repo-content').innerHTML = html;
 
 function displayPdf(url) {   
