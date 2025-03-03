@@ -1,10 +1,8 @@
-const files = ["JavaAufgaben.pdf", "Woche 1.pdf", "Woche 2.pdf", "Woche 3.pdf"];
+const files = ["Grundlagen", "Aufgaben", "Objektorientierung", "libGDX"];
 
 let html = '';
 files.forEach(item => {
-    html += `<a href="#" onclick="displayPdf('${item}'); return false;">
-                 ${item.replace(/\.[^/.]+$/, "")}
-             </a>`;
+    html += `<a href="#" onclick="displayPdf('${item}.pdf'); return false;">${item}</a>`;
 });
 
 document.getElementById('repo-content').innerHTML = html;
