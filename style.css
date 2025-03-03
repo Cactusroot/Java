@@ -19,10 +19,16 @@ html, body {
 	height: 100%;
 }
 
+#repo-content {
+	display: flex;
+	flex-direction: row;
+}
+
 a {
+	flex: 1;
+	text-align: center;
 	text-decoration: none;
 	color: aqua;
-	padding: 0px 50px;
 }
 
 a:hover {
