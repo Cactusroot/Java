@@ -10,7 +10,6 @@ document.getElementById('repo-content').innerHTML = html;
 function displayPdf(url) {   
     document.getElementById('pdf-frame').data = url;
     document.getElementById('pdf-viewer').style.display = 'block';
-    document.getElementById('pdf-viewer').scrollIntoView({ behavior: 'smooth' });
 }
 
 function hidePdfViewer() {
