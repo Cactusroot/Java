@@ -1,4 +1,4 @@
-const files = ["Grundlagen", "Aufgaben", "Objektorientierung", "libGDX"];
+const files = ["Java", "Aufgaben", "libGDX", "Sonstiges"];
 
 let html = '';
 files.forEach(item => {
