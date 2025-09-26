@@ -1,4 +1,4 @@
-const files = ["Java", "Aufgaben", "Bonus", "Infos"];
+const files = ["Java", "Mathe", "Aufgaben", "Projekt", "Infos"];
 
 let html = '';
 files.forEach(item => {
